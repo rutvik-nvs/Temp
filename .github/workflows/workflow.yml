@@ -1,0 +1,15 @@
+name: Read Secret Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  read-secret:
+    name: Read Secret
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Read Secret
+        run: echo "The value of MY_SECRET_NAME is ${{ secrets.MY_SECRET_NAME }}"
+        env:
+          MY_SECRET_NAME: ${{ secrets.MY_SECRET_NAME }}
