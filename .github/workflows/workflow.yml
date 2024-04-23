@@ -4,12 +4,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  read-secret:
-    name: Read Secret
+  trigger-tekton-pipeline-with-secret:
+    name: Trigger Tekton Pipeline with Secret
     runs-on: ubuntu-latest
 
     steps:
-      - name: Read Secret
-        run: echo "The value of MY_SECRET_NAME is ${{ secrets.MY_SECRET_NAME }}"
+      - name: Trigger Pipeline
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"secret": "${{ secrets.MY_SECRET_NAME }}"}' \
+            ${{ secrets.OCP_TEKTON_WEBHOOK_URL }}
         env:
           MY_SECRET_NAME: ${{ secrets.MY_SECRET_NAME }}
+          OCP_TEKTON_WEBHOOK_URL: ${{ secrets.OCP_TEKTON_WEBHOOK_URL }}
